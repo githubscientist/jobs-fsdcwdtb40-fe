@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/authServices";
+import { useDispatch } from "react-redux";
+import { setUser } from '../redux/authSlice';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -9,12 +11,24 @@ const Login = () => {
         password: ''
     });
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
         try {
             const response = await loginUser(formData);
+            dispatch(setUser(response.user));
+            toast.success(response.message);
+
+            if (response.user.role === 'admin') {
+                navigate('/admin/dashboard');
+            } else if (response.user.role === 'recruiter') {
+                navigate('/recruiter/dashboard');
+            } else {
+                navigate('/dashboard');
+            }
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message || "Login failed";
             toast.error(errorMessage);

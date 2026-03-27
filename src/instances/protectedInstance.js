@@ -6,7 +6,7 @@ const protectedInstance = axios.create({
     baseURL: baseURL,
     timeout: 10000,
     headers: {
-        "Content-Length": "application/json"
+        'Content-Type': 'application/json',
     },
     withCredentials: true // include cookies in requests
 });
