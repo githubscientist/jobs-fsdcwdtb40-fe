@@ -1,9 +1,10 @@
-const Home = () => {
+import Navbar from "../components/Navbar";
 
+const Home = () => {
     return (
-        <>
-            <h1>Hello World</h1>
-        </>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+            <Navbar />
+        </div>
     )
 }
 
